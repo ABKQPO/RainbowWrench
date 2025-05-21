@@ -1,0 +1,19 @@
+{
+	"modListVersion": 2,
+	"modList": [{
+		"modid": "RainbowWrench",
+		"name": "rainbowwrench",
+		"description": "Rainbow!",
+		"version": "${modVersion}",
+		"mcversion": "1.7.10",
+		"url": "https://github.com/ABKQPO/RainbowWrench",
+		"authorList": ["HFstudio"],
+		"credits": "HFstudio",
+		"logoFile": "",
+		"screenshots": [],
+		"parent": "",
+		"dependencies": [],
+		"dependants": [],
+		"useDependencyInformation": false
+	}]
+}
