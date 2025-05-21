@@ -27,7 +27,7 @@ public class LayoutStyleMinecraft_Mixin {
             if ("nei:textures/cheat_speical.png".equals(rl.toString())) {
                 final int iconX = b.x + (b.w - icon.width) / 2;
                 final int iconY = b.y + (b.h - icon.height) / 2;
-                dr.draw(iconX, iconY, 0);
+                dr.draw(iconX, iconY, 1);
                 ci.cancel();
             }
         }
