@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import rainbowwrench.config.Config;
+
 @SuppressWarnings("unused")
 public class EarlyMixinPlugin {
 
     public static List<String> getEarlyMixins(Set<String> loadedMods) {
         final List<String> mixins = new ArrayList<>();
-        if (!isModPresent("com.science.gtnl.asm.GTNLEarlyCoreMod")) {
+        if (!isModPresent("com.science.gtnl.asm.GTNLEarlyCoreMod") && Config.enableSpecialCheatIcon) {
             mixins.add("NotEnoughItems.DrawableBuilderAccessor");
             mixins.add("NotEnoughItems.DrawableResourceAccessor");
             mixins.add("NotEnoughItems.DrawableResource_Mixin");

@@ -11,6 +11,7 @@ import codechicken.nei.Button;
 import codechicken.nei.Image;
 import codechicken.nei.LayoutStyleMinecraft;
 import rainbowwrench.api.mixinHelper.IDrawableResourceAccessor;
+import rainbowwrench.config.Config;
 
 @SuppressWarnings("UnusedMixin")
 @Mixin(value = LayoutStyleMinecraft.class, remap = false)
@@ -27,7 +28,7 @@ public class LayoutStyleMinecraft_Mixin {
             if ("nei:textures/cheat_speical.png".equals(rl.toString())) {
                 final int iconX = b.x + (b.w - icon.width) / 2;
                 final int iconY = b.y + (b.h - icon.height) / 2;
-                dr.draw(iconX, iconY, 1);
+                dr.draw(iconX, iconY, Config.specialIconType);
                 ci.cancel();
             }
         }
