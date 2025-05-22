@@ -213,53 +213,55 @@ public class SpecialRender {
                 break;
 
             case 5:
-                float ca = (float) (0xE6FFFFFF >> 24 & 255) / 255.0F;
-                float cr = (float) (0xE6FFFFFF >> 16 & 255) / 255.0F;
-                float cg = (float) (0xE6FFFFFF >> 8 & 255) / 255.0F;
-                float cb = (float) (0xE6FFFFFF & 255) / 255.0F;
-                GL11.glColor4f(cr, cg, cb, ca);
+                if (Loader.isModLoaded("Avaritia")) {
+                    float ca = (float) (0xE6FFFFFF >> 24 & 255) / 255.0F;
+                    float cr = (float) (0xE6FFFFFF >> 16 & 255) / 255.0F;
+                    float cg = (float) (0xE6FFFFFF >> 8 & 255) / 255.0F;
+                    float cb = (float) (0xE6FFFFFF & 255) / 255.0F;
+                    GL11.glColor4f(cr, cg, cb, ca);
 
-                GL11.glEnable(GL11.GL_BLEND);
-                GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                GL11.glDisable(GL11.GL_ALPHA_TEST);
-                GL11.glDisable(GL11.GL_DEPTH_TEST);
+                    GL11.glEnable(GL11.GL_BLEND);
+                    GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+                    GL11.glDisable(GL11.GL_ALPHA_TEST);
+                    GL11.glDisable(GL11.GL_DEPTH_TEST);
 
-                IIcon halonoiseIcon = haloNoiseIcon;
+                    IIcon halonoiseIcon = haloNoiseIcon;
 
-                if (halonoiseIcon != null) {
+                    if (halonoiseIcon != null) {
+                        Minecraft.getMinecraft()
+                            .getTextureManager()
+                            .bindTexture(TextureMap.locationItemsTexture);
+
+                        float minU = halonoiseIcon.getMinU();
+                        float maxU = halonoiseIcon.getMaxU();
+                        float minV = halonoiseIcon.getMinV();
+                        float maxV = halonoiseIcon.getMaxV();
+
+                        int noiseSpread = 10;
+                        float haloDrawX = drawX - noiseSpread;
+                        float haloDrawY = drawY - noiseSpread;
+                        float haloWidth = width + 2 * noiseSpread;
+                        float haloHeight = height + 2 * noiseSpread;
+
+                        Tessellator t = Tessellator.instance;
+                        t.startDrawingQuads();
+                        t.addVertexWithUV(haloDrawX, haloDrawY + haloHeight, 0, minU, maxV);
+                        t.addVertexWithUV(haloDrawX + haloWidth, haloDrawY + haloHeight, 0, maxU, maxV);
+                        t.addVertexWithUV(haloDrawX + haloWidth, haloDrawY, 0, maxU, minV);
+                        t.addVertexWithUV(haloDrawX, haloDrawY, 0, minU, minV);
+                        t.draw();
+                    }
+
+                    GL11.glEnable(GL11.GL_DEPTH_TEST);
+                    GL11.glEnable(GL11.GL_ALPHA_TEST);
+
+                    GL11.glColor4f(1.0f, 0.3333f, 0.3333f, 1.0F);
+
                     Minecraft.getMinecraft()
                         .getTextureManager()
-                        .bindTexture(TextureMap.locationItemsTexture);
-
-                    float minU = halonoiseIcon.getMinU();
-                    float maxU = halonoiseIcon.getMaxU();
-                    float minV = halonoiseIcon.getMinV();
-                    float maxV = halonoiseIcon.getMaxV();
-
-                    int noiseSpread = 10;
-                    float haloDrawX = drawX - noiseSpread;
-                    float haloDrawY = drawY - noiseSpread;
-                    float haloWidth = width + 2 * noiseSpread;
-                    float haloHeight = height + 2 * noiseSpread;
-
-                    Tessellator t = Tessellator.instance;
-                    t.startDrawingQuads();
-                    t.addVertexWithUV(haloDrawX, haloDrawY + haloHeight, 0, minU, maxV);
-                    t.addVertexWithUV(haloDrawX + haloWidth, haloDrawY + haloHeight, 0, maxU, maxV);
-                    t.addVertexWithUV(haloDrawX + haloWidth, haloDrawY, 0, maxU, minV);
-                    t.addVertexWithUV(haloDrawX, haloDrawY, 0, minU, minV);
-                    t.draw();
+                        .bindTexture(resourceLocation);
+                    Gui.func_146110_a(drawX, drawY, x, y, width, height, textureWidth, textureHeight);
                 }
-
-                GL11.glEnable(GL11.GL_DEPTH_TEST);
-                GL11.glEnable(GL11.GL_ALPHA_TEST);
-
-                GL11.glColor4f(1.0f, 0.3333f, 0.3333f, 1.0F);
-
-                Minecraft.getMinecraft()
-                    .getTextureManager()
-                    .bindTexture(resourceLocation);
-                Gui.func_146110_a(drawX, drawY, x, y, width, height, textureWidth, textureHeight);
                 break;
 
             default:
