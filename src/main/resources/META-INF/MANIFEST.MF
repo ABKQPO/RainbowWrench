@@ -1,3 +1,4 @@
 Manifest-Version: 1.0
 FMLCorePluginContainsFMLMod: true
+FMLAT: rainbowwrench_at.cfg
 FMLCorePlugin: rainbowwrench.asm.RainbowWrench

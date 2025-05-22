@@ -5,9 +5,12 @@ import static rainbowwrench.Tags.MODNAME;
 
 import java.io.File;
 
+import net.minecraftforge.common.MinecraftForge;
+
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -43,6 +46,9 @@ public class RainbowWrench {
         Config.init(mainConfigFile);
     }
 
+    @SidedProxy(clientSide = "rainbowwrench.ClientProxy", serverSide = "rainbowwrench.CommonProxy")
+    public static CommonProxy proxy;
+
     @Mod.EventHandler
     public void serverStarting(FMLServerStartingEvent event) {
         event.registerServerCommand(new CommandReloadConfig());
@@ -50,6 +56,8 @@ public class RainbowWrench {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        MinecraftForge.EVENT_BUS.register(proxy);
+        proxy.preInit(event);
         Config.init(event.getSuggestedConfigurationFile());
         FMLCommonHandler.instance()
             .bus()
