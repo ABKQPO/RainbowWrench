@@ -1,21 +1,17 @@
 package rainbowwrench;
 
-import static rainbowwrench.ClientProxy.haloNoiseIcon;
-
 import java.awt.Color;
 import java.util.Random;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 import cpw.mods.fml.common.Loader;
 import fox.spiteful.avaritia.render.CosmicRenderShenanigans;
@@ -137,47 +133,47 @@ public class SpecialRender {
 
             case 3:
                 if (Loader.isModLoaded("Avaritia")) {
-                    CosmicRenderShenanigans.setLightLevel(1.2f);
-                    GL11.glEnable(GL11.GL_BLEND);
-                    GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                    RenderHelper.enableGUIStandardItemLighting();
-
-                    GL11.glDisable(GL11.GL_ALPHA_TEST);
-                    GL11.glDisable(GL11.GL_DEPTH_TEST);
-
+                    Minecraft.getMinecraft()
+                        .getTextureManager()
+                        .bindTexture(resourceLocation);
                     Gui.func_146110_a(drawX, drawY, x, y, width, height, textureWidth, textureHeight);
+                    GL11.glColor4f(1, 1, 1, 1);
 
                     GL11.glEnable(GL11.GL_BLEND);
                     GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                    RenderHelper.enableGUIStandardItemLighting();
-
                     GL11.glDisable(GL11.GL_ALPHA_TEST);
                     GL11.glDisable(GL11.GL_DEPTH_TEST);
 
-                    CosmicRenderShenanigans.cosmicOpacity = 0.8f;
+                    CosmicRenderShenanigans.cosmicOpacity = 0.95f;
                     CosmicRenderShenanigans.inventoryRender = true;
                     CosmicRenderShenanigans.useShader();
 
-                    GL11.glColor4d(1, 1, 1, 1);
-                    Tessellator t = Tessellator.instance;
-                    float u = (float) x / textureWidth;
-                    float v = (float) y / textureHeight;
-                    float uWidth = (float) width / textureWidth;
-                    float vHeight = (float) height / textureHeight;
+                    IIcon cheatWrenchIcon = ClientProxy.cheatWrenchIcon;
 
-                    t.startDrawingQuads();
-                    t.addVertexWithUV(drawX, drawY, 0, u, v);
-                    t.addVertexWithUV(drawX, drawY + height, 0, u, v + vHeight);
-                    t.addVertexWithUV(drawX + width, drawY + height, 0, u + uWidth, v + vHeight);
-                    t.addVertexWithUV(drawX + width, drawY, 0, u + uWidth, v);
-                    t.draw();
+                    if (cheatWrenchIcon != null) {
+                        Minecraft.getMinecraft()
+                            .getTextureManager()
+                            .bindTexture(TextureMap.locationItemsTexture);
 
-                    CosmicRenderShenanigans.releaseShader();
-                    CosmicRenderShenanigans.inventoryRender = false;
-                    GL11.glEnable(GL11.GL_ALPHA_TEST);
-                    GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+                        float minU = cheatWrenchIcon.getMinU();
+                        float maxU = cheatWrenchIcon.getMaxU();
+                        float minV = cheatWrenchIcon.getMinV();
+                        float maxV = cheatWrenchIcon.getMaxV();
+
+                        Tessellator t = Tessellator.instance;
+                        t.startDrawingQuads();
+                        t.addVertexWithUV((float) drawX, (float) drawY + (float) height, 0, minU, maxV);
+                        t.addVertexWithUV((float) drawX + (float) width, (float) drawY + (float) height, 0, maxU, maxV);
+                        t.addVertexWithUV((float) drawX + (float) width, (float) drawY, 0, maxU, minV);
+                        t.addVertexWithUV((float) drawX, (float) drawY, 0, minU, minV);
+                        t.draw();
+
+                        CosmicRenderShenanigans.releaseShader();
+                        CosmicRenderShenanigans.inventoryRender = false;
+                    }
+
                     GL11.glEnable(GL11.GL_DEPTH_TEST);
-                    GL11.glDisable(GL11.GL_BLEND);
+                    GL11.glEnable(GL11.GL_ALPHA_TEST);
                 }
                 break;
 
@@ -225,7 +221,7 @@ public class SpecialRender {
                     GL11.glDisable(GL11.GL_ALPHA_TEST);
                     GL11.glDisable(GL11.GL_DEPTH_TEST);
 
-                    IIcon halonoiseIcon = haloNoiseIcon;
+                    IIcon halonoiseIcon = ClientProxy.haloNoiseIcon;
 
                     if (halonoiseIcon != null) {
                         Minecraft.getMinecraft()

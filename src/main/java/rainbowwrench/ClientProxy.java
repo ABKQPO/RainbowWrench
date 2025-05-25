@@ -21,7 +21,11 @@ public class ClientProxy extends CommonProxy {
     public static String haloNoiseIconTexture = "nei:halonoise";
     public static IIcon haloNoiseIcon;
 
+    public static String cheatWrenchIconTexture = "nei:cheat_speical";
+    public static IIcon cheatWrenchIcon;
+
     public static void registerAllIcons(IIconRegister ir) {
         haloNoiseIcon = ir.registerIcon(haloNoiseIconTexture);
+        cheatWrenchIcon = ir.registerIcon(cheatWrenchIconTexture);
     }
 }

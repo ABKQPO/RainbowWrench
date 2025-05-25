@@ -25,7 +25,7 @@ public class LayoutStyleMinecraft_Mixin {
         Image icon = b.getRenderIcon();
         if (icon instanceof DrawableResourceAccessor accessor && icon instanceof IDrawableResourceAccessor dr) {
             ResourceLocation rl = accessor.getResourceLocation();
-            if ("nei:textures/cheat_speical.png".equals(rl.toString()) && Config.enableSpecialCheatIcon) {
+            if ("nei:textures/items/cheat_speical.png".equals(rl.toString()) && Config.enableSpecialCheatIcon) {
                 final int iconX = b.x + (b.w - icon.width) / 2;
                 final int iconY = b.y + (b.h - icon.height) / 2;
                 dr.draw(iconX, iconY, Config.specialIconType);

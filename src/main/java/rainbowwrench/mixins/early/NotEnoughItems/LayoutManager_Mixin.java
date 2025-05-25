@@ -22,6 +22,6 @@ public class LayoutManager_Mixin {
         if (builder instanceof ExtendedDrawableBuilder extended) {
             return extended.build();
         }
-        return new ExtendedDrawableBuilder("nei:textures/cheat_speical.png", 0, 0, 16, 16, 16, 16).build();
+        return new ExtendedDrawableBuilder("nei:textures/items/cheat_speical.png", 0, 0, 16, 16, 16, 16).build();
     }
 }
